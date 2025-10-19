@@ -69,14 +69,22 @@ resource "aws_iam_role" "this" {
 
 resource "aws_iam_policy" "s3_read" {
   name        = "s3-read-policy-${var.prefix}"
-  description = "Allows EC2 instances to read from specified S3 bucket"
+  description = "Allows EC2 instances to read/write the specified S3 bucket"
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
-      Effect: "Allow",
-      Action: ["s3:GetObject", "s3:ListBucket"],
-      Resource: [
+      Effect   = "Allow",
+      Action   = [
+        "s3:ListBucket",
+        "s3:GetObject",
+        "s3:PutObject",                # <- necesario para generator.py
+        # Opcionales pero recomendables:
+        "s3:DeleteObject",
+        "s3:AbortMultipartUpload",
+        "s3:ListBucketMultipartUploads"
+      ],
+      Resource = [
         "arn:aws:s3:::${var.bucket_name}",
         "arn:aws:s3:::${var.bucket_name}/*"
       ]
