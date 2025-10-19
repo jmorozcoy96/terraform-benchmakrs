@@ -28,7 +28,7 @@ measure(){
 IFS=',' read -ra EXPRS <<< "$EXPERIMENTS"
 for ex in "${EXPRS[@]}"; do
   echo "==> Running $ex"
-  for label in 5GB 10GB 15GB 20GB 25GB; do
+  for label in 5GB 10GB 15GB; do
     measure "$ex" "$label" uv run "$ex/main.py" "$SOURCE"
   done
 done
