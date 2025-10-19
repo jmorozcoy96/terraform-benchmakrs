@@ -174,14 +174,14 @@ def main():
     # Modo compat por archivos individuales
     if args.num_files is None:
         raise SystemExit("You must pass either --size-gb N or --num-files N")
-
-    if args.is_buckets := args.is_bucket:
+    
+    if args.is_bucket:
         # args.output = bucket en modo compat
         writer_fn = _compat_s3_single_writer(args.output, "generator")
     else:
         # args.output = carpeta local en modo compat
         writer_fn = _compat_local_single_writer(pathlib.Path(args.output))
-
+    
     _compat_generate_num_files(args.num_files, writer_fn)
 
 
